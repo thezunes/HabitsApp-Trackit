@@ -9,9 +9,9 @@ export default function Cadastro() {
     <Container>
 
     <img src={Logo}/>
-    <Email placaholder="Email" />
+    <Email placeholder='Email' type="email"   />
 
-    <Password placaholder="Senha"/>
+    <Password placeholder='Senha' type="password"  />
 
     <Enter> 
     <a> ENTRAR </a>
@@ -55,6 +55,11 @@ box-sizing: border-box;
 width: 303px;
 height: 45px;
 margin-bottom: 6px;
+font-family: 'Lexend Deca';
+font-style: normal;
+font-weight: 400;
+font-size: 19.976px;
+line-height: 25px;
 
   `
 
@@ -67,6 +72,11 @@ box-sizing: border-box;
 width: 303px;
 height: 45px;
 margin-bottom: 6px;
+font-family: 'Lexend Deca';
+font-style: normal;
+font-weight: 400;
+font-size: 19.976px;
+line-height: 25px;
 
   
 `
