@@ -30,8 +30,8 @@ export default function Cadastro() {
     request.then(r => navigate("/"))
     
     request.catch((err) => {
-      alert("erro na requisição")
-      console.log(err)
+ 
+      alert(err.response.data.message)
     });    
     
   }

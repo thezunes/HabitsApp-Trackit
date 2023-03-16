@@ -1,22 +1,54 @@
-import { createContext, Component } from 'react'
-import { Route, Link } from 'react-router-dom';
+import axios from 'axios';
+import { createContext, Component, useState } from 'react'
+import { Route, Link, useActionData } from 'react-router-dom';
 import styled from "styled-components"
 import Logo from '../assets/logo.svg'
 
 
+
 export default function Cadastro() {
+
+
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState ("")
+
+  function login(e){
+
+    const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login"
+    const data = {email: email, password: password}
+
+    const promise = axios.post(url, data)
+
+    promise.then((s) => {console.log(s.data); console.log("deu certo")})
+    promise.catch((err) => alert(err.response.data.message))
+
+    e.preventDefault();
+    console.log(data)
+
+  }
+
+
     return (
 
     <Container>
 
     <img src={Logo}/>
-    <Email placeholder='Email' type="email"   />
 
-    <Password placeholder='Senha' type="password"  />
 
-    <Enter> 
+    <form onSubmit={login}>
+
+    <input placeholder='Email' type="email"  value={email} onChange={e => setEmail(e.target.value)} />
+
+    <input placeholder='Senha' type="password" value={password} onChange={e => setPassword(e.target.value)} />
+
+    <Enter type="submit"> 
     <a> ENTRAR </a>
     </Enter>
+
+    </form>
+
+
+    
 
     <Link to="/cadastro">
     <Singin> Não tem uma conta? Cadastre-se! </Singin>
@@ -47,49 +79,35 @@ const Container = styled.div `
     margin-bottom:32px;
 
   }
+
+  input {
+
+
+  background: #FFFFFF;
+  border: 1px solid #D5D5D5;
+  border-radius: 5px;
+  box-sizing: border-box;
+  width: 303px;
+  height: 45px;
+  margin-bottom: 6px;
+  font-family: 'Lexend Deca';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 19.976px;
+  line-height: 25px;
+  justify-content: center;
+  margin-left: 36px;
+  }
   
   `
-
-const Email = styled.input `
-
-background: #FFFFFF;
-border: 1px solid #D5D5D5;
-border-radius: 5px;
-box-sizing: border-box;
-width: 303px;
-height: 45px;
-margin-bottom: 6px;
-font-family: 'Lexend Deca';
-font-style: normal;
-font-weight: 400;
-font-size: 19.976px;
-line-height: 25px;
-
-  `
-
-const Password = styled.input `
-
-background: #FFFFFF;
-border: 1px solid #D5D5D5;
-border-radius: 5px;
-box-sizing: border-box;
-width: 303px;
-height: 45px;
-margin-bottom: 6px;
-font-family: 'Lexend Deca';
-font-style: normal;
-font-weight: 400;
-font-size: 19.976px;
-line-height: 25px;
-
-  
-`
 
 const Enter = styled.button `
 background: #52B6FF;
 border-radius: 4.63636px;
 width: 303px;
 height: 45px;
+margin-left: 36px;
+
 
 a{
 
@@ -107,7 +125,7 @@ color: #FFFFFF;
 
 `
 
-const Singin = styled.a `
+const Singin = styled.div `
 
 width: 232px;
 height: 17px;
@@ -122,3 +140,25 @@ color: #52B6FF;
 margin-top: 26px;
 
 `
+
+
+
+
+
+
+
+
+
+
+
+
+//AUTORIZAÇÃO 
+
+
+
+// const config = { 
+
+//   headers: { Authorization: `Bearer ${}`}
+// }
+
+//USAR NO USEFFECT
