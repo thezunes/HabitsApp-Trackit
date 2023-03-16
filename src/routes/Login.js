@@ -37,11 +37,11 @@ export default function Cadastro() {
 
     <form onSubmit={login}>
 
-    <input placeholder='Email' type="email"  value={email} onChange={e => setEmail(e.target.value)} />
+    <input data-test="email-input" placeholder='Email' type="email"  value={email} onChange={e => setEmail(e.target.value)} />
 
-    <input placeholder='Senha' type="password" value={password} onChange={e => setPassword(e.target.value)} />
+    <input data-test="password-input" placeholder='Senha' type="password" value={password} onChange={e => setPassword(e.target.value)} />
 
-    <Enter type="submit"> 
+    <Enter data-test="login-btn" type="submit"> 
     <a> ENTRAR </a>
     </Enter>
 
@@ -51,7 +51,7 @@ export default function Cadastro() {
     
 
     <Link to="/cadastro">
-    <Singin> Não tem uma conta? Cadastre-se! </Singin>
+    <Singin data-test="signup-link"> Não tem uma conta? Cadastre-se! </Singin>
     </Link>
 
    

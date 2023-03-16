@@ -22,7 +22,7 @@ export default function Cadastro() {
 
   }
 
-  function singup(e) {
+  function signup(e) {
 
     const request =  axios.post(url, form)
     e.preventDefault();
@@ -31,7 +31,7 @@ export default function Cadastro() {
     
     request.catch((err) => {
  
-      alert(err.response.data.message)
+      console.log(err.response.data.message)
     });    
     
   }
@@ -40,7 +40,7 @@ export default function Cadastro() {
       <Container>
         <img src={Logo} />
 
-        <form onSubmit={singup}> 
+        <form onSubmit={signup}> 
 
         
         <input 
@@ -51,7 +51,8 @@ export default function Cadastro() {
         name={"email"}
         onChange={handleChange}
         required
-        
+        data-test="email-input"
+         
         />
         
         <input
@@ -62,7 +63,7 @@ export default function Cadastro() {
         value={form.password}
         name={"password"}
         onChange={handleChange}
-
+        data-test="passwords-input"
         required
 
         />  
@@ -73,6 +74,7 @@ export default function Cadastro() {
         name={"name"}
         value={form.name}
         onChange={handleChange}
+        data-test="user-name-input"
         required
 
         />
@@ -83,6 +85,7 @@ export default function Cadastro() {
         value={form.profilePic}
         name={"image"}
         onChange={handleChange}
+        data-test="user-image-input"
         required
         
         />
@@ -96,7 +99,7 @@ export default function Cadastro() {
 
         
         <Link to="/">
-        <Login> Já tem uma conta? Faça login! </Login>
+        <Login data-test="login-link"> Já tem uma conta? Faça login! </Login>
         </Link>
       </Container>
     );
