@@ -1,7 +1,8 @@
 import { createContext, Component } from 'react'
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import styled from "styled-components"
 import Logo from '../assets/logo.svg'
+
 
 export default function Cadastro() {
     return (
@@ -17,7 +18,10 @@ export default function Cadastro() {
     <a> ENTRAR </a>
     </Enter>
 
+    <Link to="/cadastro">
     <Singin> Não tem uma conta? Cadastre-se! </Singin>
+    </Link>
+
    
     </Container>
 

@@ -1,26 +1,103 @@
-import { createContext, Component } from 'react'
-import { Route } from 'react-router-dom';
+import axios from 'axios';
+import { createContext, Component, useState, useEffect } from 'react'
+import { Route, Link, useNavigate } from 'react-router-dom';
 import styled from "styled-components"
 import Logo from '../assets/logo.svg'
 
 
 
+
 export default function Cadastro() {
+
+
+  const [form, setForm] = useState ({email: "", name: "",image: "",password: ""})
+  const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up"
+  const navigate = useNavigate()
+
+  function handleChange(e){
+
+    console.log(e.target.name)
+    setForm({...form, [e.target.name]: e.target.value})
+    console.log(form)
+
+  }
+
+  function singup(e) {
+
+    const request =  axios.post(url, form)
+    e.preventDefault();
+
+    request.then(r => navigate("/"))
+    
+    request.catch((err) => {
+      alert("erro na requisição")
+      console.log(err)
+    });    
+    
+  }
  
     return (
       <Container>
         <img src={Logo} />
 
-        <input placeholder='Email' type="email"/>
-        <input placeholder='Senha' type="password"/>
-        <input placeholder='Nome' />
-        <input placeholder='Foto' type="image"/>
+        <form onSubmit={singup}> 
 
-        <Enter> 
+        
+        <input 
+
+        placeholder='Email'
+        type="email"
+        value={form.email}
+        name={"email"}
+        onChange={handleChange}
+        required
+        
+        />
+        
+        <input
+        
+        
+        placeholder='Senha'
+        type="password"
+        value={form.password}
+        name={"password"}
+        onChange={handleChange}
+
+        required
+
+        />  
+  
+        <input 
+        placeholder='Nome' 
+        type="text" 
+        name={"name"}
+        value={form.name}
+        onChange={handleChange}
+        required
+
+        />
+  
+        <input 
+        placeholder='Foto' 
+        type="url"
+        value={form.profilePic}
+        name={"image"}
+        onChange={handleChange}
+        required
+        
+        />
+
+        <Enter type="submit">
         <a> CADASTRAR </a>
         </Enter>
-        <Login> Já tem uma conta? Faça login! </Login>
 
+        </form>
+
+
+        
+        <Link to="/">
+        <Login> Já tem uma conta? Faça login! </Login>
+        </Link>
       </Container>
     );
   }
@@ -101,7 +178,7 @@ color: #FFFFFF;
 
 `
 
-const Login = styled.a `
+const Login = styled.div `
 
 width: 232px;
 height: 17px;
