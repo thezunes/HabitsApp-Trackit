@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { createContext, Component, useState } from 'react'
-import { Route, Link, useActionData } from 'react-router-dom';
+import { Route, Link, useActionData, useNavigate } from 'react-router-dom';
 import styled from "styled-components"
 import Logo from '../assets/logo.svg'
 
@@ -11,6 +11,7 @@ export default function Cadastro() {
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState ("")
+  const navigate = useNavigate()
 
   function login(e){
 
@@ -19,12 +20,11 @@ export default function Cadastro() {
 
     const promise = axios.post(url, data)
 
-    promise.then((s) => {console.log(s.data); console.log("deu certo")})
+    promise.then((s) => {console.log(s.data); navigate("/hoje")})
     promise.catch((err) => alert(err.response.data.message))
 
     e.preventDefault();
     console.log(data)
-
   }
 
 
