@@ -3,9 +3,7 @@ import { createContext, Component, useState, useEffect } from 'react'
 import { Route, Link, useNavigate } from 'react-router-dom';
 import styled from "styled-components"
 import Logo from '../assets/logo.svg'
-
-
-
+import {ThreeDots} from 'react-loader-spinner'
 
 export default function Cadastro() {
 
@@ -15,7 +13,8 @@ export default function Cadastro() {
   const [form, setForm] = useState ({email: "", name: "",image: "",password: ""})
   const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up"
   const navigate = useNavigate()
-  const [disabledButtom, setDisabledButtom] = useState(true)
+  const [disabledButtom, setDisabledButtom] = useState(false)
+  const [loading, setLoading] = useState(false)
  
   function handleChange(e){
 
@@ -30,14 +29,18 @@ export default function Cadastro() {
 
   function signup(e) {
 
-    const request =  axios.post(url, form)
+    setLoading(true)
+    const body = form;
+
+    const request =  axios.post(url, body)
     e.preventDefault(); 
 
-    request.then(r => navigate("/"))
+    request.then(r => {navigate("/"); setLoading(false) })
     
     request.catch((err) => {
  
-      console.log(err.response.data.message)
+      setLoading(false)
+      alert(err.response.data.message)
     });    
     
   }
@@ -97,7 +100,17 @@ export default function Cadastro() {
         />
 
         <Enter disabledButtom={disabledButtom} disabled={disabledButtom} type="submit">
-        <a> CADASTRAR </a>
+
+        {!loading ? <a> CADASTRAR </a> : <ThreeDots align-items="center"
+      height="80" 
+      width="80" 
+      radius="9"
+      margin-bottom="20px"
+      color="#ffffff" 
+      ariaLabel="three-dots-loading"
+      wrapperStyle={{}}
+      wrapperClassName=""
+      visible={true}/>}
         </Enter>
 
         </form>
@@ -158,18 +171,17 @@ margin-bottom: 6px;
 
   `
 
-const Password = styled.input `
-
-
-
-  
-`
-
 const Enter = styled.button `
 background: ${props => props.disabledButtom ? "gray" : "#52B6FF"};
 border-radius: 4.63636px;
 width: 303px;
 height: 45px;
+
+:disabled {
+
+background-color: #ffffff;
+
+}
 
 a{
 
@@ -181,7 +193,7 @@ font-weight: 400;
 font-size: 20.976px;
 line-height: 26px;
 text-align: center;
-color: ${props => props.disabledButtom ? "black" : "#ffffff"};;
+color: ${props => props.disabledButtom ? "A9A9A9" : "#ffffff"};;
 
 }
 

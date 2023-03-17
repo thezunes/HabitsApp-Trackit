@@ -1,8 +1,9 @@
 import axios from 'axios';
-import { createContext, Component, useState, useEffect } from 'react'
+import {createContext, Component, useState, useEffect } from 'react'
 import { Route, Link, useActionData, useNavigate } from 'react-router-dom';
 import styled from "styled-components"
 import Logo from '../assets/logo.svg'
+import {ThreeDots} from "react-loader-spinner"
 
 
 
@@ -13,19 +14,24 @@ export default function Cadastro() {
   const [password, setPassword] = useState ("")
   const navigate = useNavigate()
   const [disabledButtom, setDisabledButtom] = useState(true)
+  const [loading, setLoading] = useState(false)
+  const [disabledInput, setDisabledInput] = useState(false)
 
 
-  useEffect(() => {if(password !== "" && email !== "") {setDisabledButtom(false)} else {setDisabledButtom(true)} }, [password], [email])
+  useEffect(() => {if(password !== "" && email !== "") {setDisabledButtom(false)} else {setDisabledButtom(true)} }, [password] [email])
 
   function login(e){
 
     const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login"
     const data = {email: email, password: password}
 
+    setLoading(true)
+    setDisabledInput(true)
+
     const promise = axios.post(url, data)
 
-    promise.then((s) => {console.log(s.data); navigate("/hoje")})
-    promise.catch((err) => alert(err.response.data.message))
+    promise.then((s) => {console.log(s.data); navigate("/hoje"); setLoading(false)})
+    promise.catch((err) => {alert(err.response.data.message); setLoading(false); setDisabledInput(false);})
 
     e.preventDefault();
     console.log(data)
@@ -41,14 +47,26 @@ export default function Cadastro() {
 
     <form onSubmit={login}>
 
-    <input   data-test="email-input" placeholder='Email' type="email"  value={email} onChange={e => setEmail(e.target.value)} />
+    <input disabled={disabledInput}  data-test="email-input" placeholder='Email' type="email"  value={email} onChange={e => setEmail(e.target.value)} />
 
-    <input  data-test="password-input" placeholder='Senha' type="password" value={password} onChange={e => setPassword(e.target.value)} />
+    <input disabled={disabledInput} data-test="password-input" placeholder='Senha' type="password" value={password} onChange={e => setPassword(e.target.value)} />
 
-    <Enter disabled={disabledButtom} data-test="login-btn" type="submit"> 
-    <a> ENTRAR </a>
+    <Enter disabledButtom={disabledButtom} disabled={disabledButtom} data-test="login-btn" type="submit"> 
+    {!loading ? <a> ENTRAR </a>
+    : <ThreeDots 
+      align-items="center"
+      height="80" 
+      width="80" 
+      radius="9"
+      margin-bottom="20px"
+      color="#ffffff" 
+      ariaLabel="three-dots-loading"
+      wrapperStyle={{}}
+      wrapperClassName=""
+      visible={true}
+      />}
+
     </Enter>
-
     </form>
 
 
@@ -101,9 +119,6 @@ const Container = styled.div `
   justify-content: center;
   margin-left: 36px;
 
-
-
-
   }
   
   `
@@ -123,6 +138,7 @@ margin-left: 36px;
 
 a{
 
+
 width: 64px;
 height: 26px;
 font-family: 'Lexend Deca';
@@ -131,7 +147,7 @@ font-weight: 400;
 font-size: 20.976px;
 line-height: 26px;
 text-align: center;
-color: #FFFFFF;
+color: ${props => !props.disabledButtom ? "#ffffff" : "#A9A9A9"};
 
 }
 
