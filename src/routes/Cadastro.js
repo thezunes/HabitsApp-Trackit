@@ -9,23 +9,29 @@ import Logo from '../assets/logo.svg'
 
 export default function Cadastro() {
 
+  
+
 
   const [form, setForm] = useState ({email: "", name: "",image: "",password: ""})
   const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up"
   const navigate = useNavigate()
-
+  const [disabledButtom, setDisabledButtom] = useState(true)
+ 
   function handleChange(e){
 
     console.log(e.target.name)
     setForm({...form, [e.target.name]: e.target.value})
     console.log(form)
 
+    if(form.email !== "" && form.name !== "" && form.password !== "" && form.image !== ""){setDisabledButtom(false)}
+    else {setDisabledButtom(true)}
+
   }
 
   function signup(e) {
 
     const request =  axios.post(url, form)
-    e.preventDefault();
+    e.preventDefault(); 
 
     request.then(r => navigate("/"))
     
@@ -90,7 +96,7 @@ export default function Cadastro() {
         
         />
 
-        <Enter type="submit">
+        <Enter disabledButtom={disabledButtom} disabled={disabledButtom} type="submit">
         <a> CADASTRAR </a>
         </Enter>
 
@@ -160,7 +166,7 @@ const Password = styled.input `
 `
 
 const Enter = styled.button `
-background: #52B6FF;
+background: ${props => props.disabledButtom ? "gray" : "#52B6FF"};
 border-radius: 4.63636px;
 width: 303px;
 height: 45px;
@@ -175,7 +181,7 @@ font-weight: 400;
 font-size: 20.976px;
 line-height: 26px;
 text-align: center;
-color: #FFFFFF;
+color: ${props => props.disabledButtom ? "black" : "#ffffff"};;
 
 }
 
