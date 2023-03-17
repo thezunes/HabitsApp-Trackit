@@ -130,6 +130,9 @@ border-radius: 4.63636px;
 width: 303px;
 height: 45px;
 margin-left: 36px;
+display:flex;
+justify-content: center;
+align-items: center;
 
 :disabled {
   background: #ffffff;
@@ -148,6 +151,7 @@ font-size: 20.976px;
 line-height: 26px;
 text-align: center;
 color: ${props => !props.disabledButtom ? "#ffffff" : "#A9A9A9"};
+margin-right: 26px;
 
 }
 

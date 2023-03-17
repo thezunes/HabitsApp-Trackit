@@ -15,6 +15,9 @@ export default function Cadastro() {
   const navigate = useNavigate()
   const [disabledButtom, setDisabledButtom] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [disabledInput, setDisabledInput] = useState(false)
+
+  useEffect(() => {if(form.password !== "" && form.email !== "" && form.name !== "" && form.image !== "") {setDisabledButtom(false)} else {setDisabledButtom(true)}}, [form.email, form.password, form.name, form.image])
  
   function handleChange(e){
 
@@ -28,19 +31,21 @@ export default function Cadastro() {
   }
 
   function signup(e) {
-
+    setDisabledInput(true)
     setLoading(true)
     const body = form;
 
     const request =  axios.post(url, body)
     e.preventDefault(); 
 
-    request.then(r => {navigate("/"); setLoading(false) })
+    request.then(r => {navigate("/"); setLoading(false); })
     
     request.catch((err) => {
  
       setLoading(false)
+      setDisabledInput(false)
       alert(err.response.data.message)
+      console.log(err.response.data.message)
     });    
     
   }
@@ -53,7 +58,7 @@ export default function Cadastro() {
 
         
         <input 
-
+        disabled={disabledInput}
         placeholder='Email'
         type="email"
         value={form.email}
@@ -66,7 +71,7 @@ export default function Cadastro() {
         
         <input
         
-        
+        disabled={disabledInput}
         placeholder='Senha'
         type="password"
         value={form.password}
@@ -78,6 +83,7 @@ export default function Cadastro() {
         />  
   
         <input 
+        disabled={disabledInput}
         placeholder='Nome' 
         type="text" 
         name={"name"}
@@ -89,6 +95,7 @@ export default function Cadastro() {
         />
   
         <input 
+        disabled={disabledInput}
         placeholder='Foto' 
         type="url"
         value={form.profilePic}
@@ -176,6 +183,9 @@ background: ${props => props.disabledButtom ? "gray" : "#52B6FF"};
 border-radius: 4.63636px;
 width: 303px;
 height: 45px;
+display:flex;
+justify-content: center;
+align-items: center;
 
 :disabled {
 
@@ -194,6 +204,7 @@ font-size: 20.976px;
 line-height: 26px;
 text-align: center;
 color: ${props => props.disabledButtom ? "A9A9A9" : "#ffffff"};;
+margin-right: 60px;
 
 }
 
