@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { createContext, Component, useState } from 'react'
+import { createContext, Component, useState, useEffect } from 'react'
 import { Route, Link, useActionData, useNavigate } from 'react-router-dom';
 import styled from "styled-components"
 import Logo from '../assets/logo.svg'
@@ -12,6 +12,10 @@ export default function Cadastro() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState ("")
   const navigate = useNavigate()
+  const [disabledButtom, setDisabledButtom] = useState(true)
+
+
+  useEffect(() => {if(password !== "" && email !== "") {setDisabledButtom(false)} else {setDisabledButtom(true)} }, [password], [email])
 
   function login(e){
 
@@ -37,11 +41,11 @@ export default function Cadastro() {
 
     <form onSubmit={login}>
 
-    <input data-test="email-input" placeholder='Email' type="email"  value={email} onChange={e => setEmail(e.target.value)} />
+    <input   data-test="email-input" placeholder='Email' type="email"  value={email} onChange={e => setEmail(e.target.value)} />
 
-    <input data-test="password-input" placeholder='Senha' type="password" value={password} onChange={e => setPassword(e.target.value)} />
+    <input  data-test="password-input" placeholder='Senha' type="password" value={password} onChange={e => setPassword(e.target.value)} />
 
-    <Enter data-test="login-btn" type="submit"> 
+    <Enter disabled={disabledButtom} data-test="login-btn" type="submit"> 
     <a> ENTRAR </a>
     </Enter>
 
@@ -82,7 +86,6 @@ const Container = styled.div `
 
   input {
 
-
   background: #FFFFFF;
   border: 1px solid #D5D5D5;
   border-radius: 5px;
@@ -97,16 +100,25 @@ const Container = styled.div `
   line-height: 25px;
   justify-content: center;
   margin-left: 36px;
+
+
+
+
   }
   
   `
 
 const Enter = styled.button `
+
 background: #52B6FF;
 border-radius: 4.63636px;
 width: 303px;
 height: 45px;
 margin-left: 36px;
+
+:disabled {
+  background: #ffffff;
+}
 
 
 a{
