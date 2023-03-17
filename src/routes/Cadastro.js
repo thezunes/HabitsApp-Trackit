@@ -33,6 +33,9 @@ export default function Cadastro() {
   function signup(e) {
     setDisabledInput(true)
     setLoading(true)
+    setDisabledButtom(true)
+
+
     const body = form;
 
     const request =  axios.post(url, body)
@@ -46,6 +49,8 @@ export default function Cadastro() {
       setDisabledInput(false)
       alert(err.response.data.message)
       console.log(err.response.data.message)
+      setDisabledButtom(false)
+
     });    
     
   }
@@ -106,7 +111,7 @@ export default function Cadastro() {
         
         />
 
-        <Enter disabledButtom={disabledButtom} disabled={disabledButtom} type="submit">
+        <Enter loading={loading} disabledButtom={disabledButtom} disabled={disabledButtom} type="submit">
 
         {!loading ? <a> CADASTRAR </a> : <ThreeDots align-items="center"
       height="80" 
@@ -189,7 +194,7 @@ align-items: center;
 
 :disabled {
 
-background-color: #ffffff;
+background-color: ${props => props.loading ? "#52B6FF" : "#ffffff"};
 
 }
 

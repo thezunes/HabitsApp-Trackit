@@ -18,7 +18,7 @@ export default function Cadastro() {
   const [disabledInput, setDisabledInput] = useState(false)
 
 
-  useEffect(() => {if(password !== "" && email !== "") {setDisabledButtom(false)} else {setDisabledButtom(true)} }, [password] [email])
+  useEffect(() => {if(password !== "" && email !== "") {setDisabledButtom(false)} else {setDisabledButtom(true)} }, [password,email])
 
   function login(e){
 
@@ -27,11 +27,20 @@ export default function Cadastro() {
 
     setLoading(true)
     setDisabledInput(true)
+    setDisabledButtom(true)
 
     const promise = axios.post(url, data)
 
     promise.then((s) => {console.log(s.data); navigate("/hoje"); setLoading(false)})
-    promise.catch((err) => {alert(err.response.data.message); setLoading(false); setDisabledInput(false);})
+    promise.catch((err) => {
+      
+    alert(err.response.data.message); 
+    setLoading(false); 
+    setDisabledInput(false);
+    setDisabledButtom(false)
+  
+
+  })
 
     e.preventDefault();
     console.log(data)
@@ -51,7 +60,7 @@ export default function Cadastro() {
 
     <input disabled={disabledInput} data-test="password-input" placeholder='Senha' type="password" value={password} onChange={e => setPassword(e.target.value)} />
 
-    <Enter disabledButtom={disabledButtom} disabled={disabledButtom} data-test="login-btn" type="submit"> 
+    <Enter loading={loading} disabledButtom={disabledButtom} disabled={disabledButtom} data-test="login-btn" type="submit"> 
     {!loading ? <a> ENTRAR </a>
     : <ThreeDots 
       align-items="center"
@@ -135,7 +144,7 @@ justify-content: center;
 align-items: center;
 
 :disabled {
-  background: #ffffff;
+  background: ${props => props.loading ? "#52B6FF" : "#ffffff;"}
 }
 
 
