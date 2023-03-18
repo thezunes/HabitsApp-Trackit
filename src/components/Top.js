@@ -1,16 +1,19 @@
-import { createContext, Component } from 'react'
+import { createContext, Component, useContext } from 'react'
 import { Route } from 'react-router-dom';
 import styled from "styled-components"
+import Context from "../contexts/Context"
 
 
 
 export default function Top() {
 
+  const { userData, setUserData} = useContext(Context)
+
     return (
     <>
         <TopPage>
           <a>TrackIt</a>
-          <img src="https://assets1.ignimgs.com/2017/03/28/persona5-1280-3-1490728399817_160w.jpg?width=1280" alt="logoprofile"/>
+          <img src={userData.image} alt="logoprofile"/>
         </TopPage>
 
     </>

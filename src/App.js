@@ -6,6 +6,8 @@ import Hoje from "./routes/Hoje"
 import Historico from "./routes/Historico"
 import Top from "./components/Top.js"
 import Footer from "./components/Footer.js"
+import Context from "./contexts/Context.js"
+
 import styled from "styled-components"
 import axios from 'axios';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -13,13 +15,15 @@ import { useState, useEffect } from 'react'
 
 
 export default function App() {
-  
-  const path=window.location.pathname;
+
+  const [userData, setUserData] = useState({})
   
   return (
+    
+    <Context.Provider value={{userData, setUserData}}>
+
     <BrowserRouter>
 
-    {path !== "/" && "/cadastro" ? <Top/> : null}
     
     <Routes>
       <Route exact path="/" element={<Login/>} />
@@ -29,9 +33,11 @@ export default function App() {
       <Route path="/historico" element={<Historico/>} />
     </Routes>
 
-    {path !== "/" && "/cadastro" ? <Footer/> : null}
 
     </BrowserRouter>
+
+    </Context.Provider>
+
   )
 }
 

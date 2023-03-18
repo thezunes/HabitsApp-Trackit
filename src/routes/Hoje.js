@@ -1,22 +1,26 @@
 import { createContext, Component } from 'react'
 import { Route } from 'react-router-dom';
 import styled from "styled-components"
+import Top from "../components/Top"
+import Footer from "../components/Footer"
 
 export default function Hoje() {
 
 return (
   
   <div>
+      <Top/>
+
   <Container>
-    <Top>
+    <TopPage>
       <a> Meus hábitos </a>
       <Plus> + </Plus>
-    </Top>
+    </TopPage>
 
-
-    
 
   </Container>
+
+  <Footer/>
 
   </div>
 );
@@ -50,7 +54,7 @@ color: #ffffff;
 margin-left: 140px;
 `
 
-const Top = styled.div `
+const TopPage = styled.div `
 
 display:flex;
 justify-content: space-between;
