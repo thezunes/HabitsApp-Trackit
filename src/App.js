@@ -10,26 +10,26 @@ import Context from "./contexts/Context.js"
 
 import styled from "styled-components"
 import axios from 'axios';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react'
 
 
 export default function App() {
 
   const [userData, setUserData] = useState({})
+  const [habits, setHabits] = useState({})
+
   
   return (
-    
-    <Context.Provider value={{userData, setUserData}}>
+    <Context.Provider value={{userData, setUserData, habits, setHabits}}>
 
     <BrowserRouter>
 
-    
     <Routes>
-      <Route exact path="/" element={<Login/>} />
+      <Route path="/" element={<Login/>}/>
+      <Route path="/hoje" element={<Hoje/>}/>
       <Route path="/cadastro" element={<Cadastro/>} />
       <Route path="/habitos" element={<Habitos/>} />
-      <Route exact path="/hoje" element={<Hoje/>} />
       <Route path="/historico" element={<Historico/>} />
     </Routes>
 

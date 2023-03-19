@@ -16,12 +16,10 @@ export default function Cadastro() {
   const [disabledButtom, setDisabledButtom] = useState(true)
   const [loading, setLoading] = useState(false)
   const [disabledInput, setDisabledInput] = useState(false)
-   const [loginSucess, setLoginSucess] = useState([])  //Armazena dados do usuário logado.
 
  
 
   useEffect(() => {if(password !== "" && email !== "") {setDisabledButtom(false)} else {setDisabledButtom(true)} }, [password,email])
-  useEffect(() => { console.log(loginSucess) }, [loginSucess])
 
 
   function login(e){
@@ -37,19 +35,20 @@ export default function Cadastro() {
 
     promise.then((res) => {
       
-      const userData={
+      const newUserData={
         image:res.data.image,
         token:res.data.token
     };
-      setUserData(userData);
-      navigate("/hoje"); 
+      setUserData(newUserData);
+      navigate("/habitos"); 
       setLoading(false);
-      console.log(userData)
+      localStorage.setItem(`token`,`${userData.token}`);
+      localStorage.setItem(`image`,`${userData.image}`);
     })
 
       promise.catch((err) => {
       
-    alert(err.response.data.message); 
+    alert(err.response); 
     setLoading(false); 
     setDisabledInput(false);
     setDisabledButtom(false)

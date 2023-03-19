@@ -3,7 +3,8 @@ import React, { useContext } from "react";
 import Context from "../contexts/Context.js";
 
 export default function Counter() {
-  const [total, setTotal] = useContext(Context);
+   const { userData, setUserData} = useContext(Context)
+
 
   return (
     <div>

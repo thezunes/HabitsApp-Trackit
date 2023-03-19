@@ -8,12 +8,14 @@ import Context from "../contexts/Context"
 export default function Top() {
 
   const { userData, setUserData} = useContext(Context)
+  const image = localStorage.getItem(`image`);
+
 
     return (
     <>
         <TopPage>
           <a>TrackIt</a>
-          <img src={userData.image} alt="logoprofile"/>
+          <img src={image} alt="logoprofile"/>
         </TopPage>
 
     </>
