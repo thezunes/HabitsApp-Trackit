@@ -45,7 +45,7 @@ export default function Cadastro() {
         token:res.data.token
     };
       setUserData(newUserData);
-      navigate("/habitos"); 
+      navigate("/hoje"); 
       setLoading(false);
       localStorage.setItem(`token`,JSON.stringify(userData.token));
       localStorage.setItem(`image`,JSON.stringify(userData.image));

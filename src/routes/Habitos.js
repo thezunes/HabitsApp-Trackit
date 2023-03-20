@@ -20,7 +20,7 @@ export default function Habitos() {
   const token = localStorage.getItem(`token`);
   const {render, setRender} = useState();
 
- 
+
   useEffect(() =>{
 
     const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
@@ -39,6 +39,27 @@ export default function Habitos() {
     promise.catch(err => console.log(err.response))
 
   } ,[render])
+
+
+  function deleteHabit (id) {
+
+  console.log("chegou")
+  const confirm = window.confirm("Tem certeza que deseja deletar o hábito?")
+
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${userData.token}`
+    }}
+    if(confirm) {
+    const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`, config);
+    promise.then(res => alert("Hábito deletado com sucesso"))
+
+    promise.catch (err => console.log(err.response.data))
+  }
+  }
+
+
 
    return (
     
@@ -61,7 +82,7 @@ export default function Habitos() {
       <Tasks data-test="habit-container" key={h.id}>
         <Task>
           <a>{h.name}</a>
-          <Icon><ion-icon name="trash-outline"></ion-icon></Icon>
+          <Icon onClick={() => deleteHabit(h.id)}><ion-icon name="trash-outline"></ion-icon></Icon>
 
         </Task>
         <Week data-test="habit-day">
