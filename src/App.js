@@ -17,11 +17,13 @@ import { useState, useEffect } from 'react'
 export default function App() {
 
   const [userData, setUserData] = useState({})
-  const [habits, setHabits] = useState({})
+  const [habits, setHabits] = useState([])
+  const [habitName, setHabitName] = useState([])
 
   
+  
   return (
-    <Context.Provider value={{userData, setUserData, habits, setHabits}}>
+    <Context.Provider value={{userData, setUserData, habits, setHabits, habitName, setHabitName}}>
 
     <BrowserRouter>
 

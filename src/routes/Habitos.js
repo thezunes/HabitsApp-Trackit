@@ -1,24 +1,26 @@
-import { createContext, Component, useContext, useEffect } from 'react'
+import { createContext, Component, useContext, useEffect, useState } from 'react'
 import { Route } from 'react-router-dom';
 import styled from "styled-components"
 import Top from "../components/Top"
 import Footer from "../components/Footer"
 import Context from '../contexts/Context'
 import axios from 'axios';
-
-
-
-
-
+import PlusTask from '../components/PlusTask'
+import AddTask from '../components/AddTask'
 
 export default function Habitos() {
 
   const {userData, setUserData} = useContext(Context);
   const {habits, setHabits} = useContext(Context);
-  const teste = true;
+  const {newHabit, setNewHabit} = useState([]);
+  const [addTaskContainer, setAddTaskContainer] = useState(false);
+  const daysWeek = ["D", "S","T", "Q", "Q", "S", "S"]
+  const [dayHabit, setDayHabit] = useState();
+  
 
+  
 
-
+  
   useEffect(() =>{
 
     const token = localStorage.getItem(`teste`);
@@ -28,23 +30,13 @@ export default function Habitos() {
         Authorization: `Bearer ${token}`
       }
     }
-
-    
-  //   const newHabits={
-  //     image:res.data.image,
-  //     token:res.data.token
-  // };
-    
+  
     const promise = axios.get(url, config);
     promise.then(res => {
 
-    const newHabits={
-        id:res.data.id,
-        name:res.data.name,
-        days:res.data.days
-    };
-
-    setHabits(newHabits); console.log(habits)})
+    setHabits(res.data); console.log(res.data);
+    setDayHabit(res.data.days);
+    console.log(dayHabit)})
     promise.catch(err => console.log(err.response))
 
   } ,[])
@@ -57,41 +49,33 @@ export default function Habitos() {
     <Container>
       <TopPage>
         <a> Meus hábitos </a>
-        <Plus > + </Plus>
+        <PlusTask addTaskContainer={addTaskContainer} setAddTaskContainer={setAddTaskContainer}/>
       </TopPage>
 
-      {habits.id === undefined ? 
-      
-      <NoTask> Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</NoTask> :
-      
-      <Tasks> 
+      {addTaskContainer ? <AddTask setAddTaskContainer={setAddTaskContainer}/> : null}
 
-      <Task>
-        
-        
-      <a>Ler um Livro </a>
-      <Icon><ion-icon name="trash-outline"></ion-icon></Icon>
-        
-         </Task>
+      {habits.length === 0 ? 
+  <NoTask addTaskContainer={addTaskContainer}> Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</NoTask> :
+  (
+    <>
+    {habits.map((h) => (
+      <Tasks data-test="habit-container" key={h.id}>
+        <Task>
+          <a>{h.name}</a>
+          <Icon><ion-icon name="trash-outline"></ion-icon></Icon>
 
-      <Week> 
-        
-      <Days> D </Days>
-      <Days> S </Days>
-      <Days> T </Days>
-      <Days> Q </Days>
-      <Days> Q </Days>
-      <Days> S </Days>
-      <Days> S </Days>
-
-        
-      </Week> 
-
+        </Task>
+        <Week data-test="habit-day">
+          {daysWeek.map((d) => <Days key={d}>{d}</Days>
+          )}
+        </Week>
       </Tasks>
+    ))}
+  </>
 
-    }
+  )
+}
       
-  
   
     </Container>
   
@@ -113,45 +97,7 @@ export default function Habitos() {
      
     `
     
-  const Plus = styled.button `
-  display:flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 35px;
-  background: #52B6FF;
-  border-radius: 4.63636px;
-  margin-right: 18px;
-  font-family: 'Lexend Deca';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 26.976px;
-  text-align: center;
-  color: #ffffff;
-  margin-left: 140px;
-  `
   
-  const TopPage = styled.div `
-  
-  display:flex;
-  justify-content: space-between;
-  
-  a{
-  
-  width: 148px;
-  height: 29px;
-  left: 17px;
-  top: 98px;
-  font-family: 'Lexend Deca';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 22.976px;
-  line-height: 29px;
-  color: #126BA5;
-  margin-left: 18px;
-  }
-  
-  `
    
 const Tasks = styled.div `
 
@@ -205,7 +151,7 @@ height: 30px;
 left: 36px;
 top: 218px;
 box-sizing: border-box;
-background: #FFFFFF;
+background: ${props => props.state === "selected" ? "black" : "#FFFFFF"};
 border: 1px solid #D5D5D5;
 border-radius: 5px;
 display:flex;
@@ -217,11 +163,24 @@ line-height: 25px;
 align-items: center;
 justify-content: center;
 margin-right: 4px;
-
-
-/* identical to box height */
-
 color: #DBDBDB;
+`
+
+
+
+const NoTask = styled.a `
+
+position: absolute;
+width: 338px;
+height: 74px;
+margin-top: ${props => props.addTaskContainer ? "250px" : "70px"};
+font-family: 'Lexend Deca';
+font-style: normal;
+font-weight: 400;
+font-size: 17.976px;
+line-height: 22px;
+color: #666666;
+
 `
 
 const Icon = styled.div`
@@ -231,19 +190,24 @@ margin-top: 10px;
 
 `
 
-const NoTask = styled.a `
-
-position: absolute;
-width: 338px;
-height: 74px;
-margin-top: 70px;
-
-font-family: 'Lexend Deca';
-font-style: normal;
-font-weight: 400;
-font-size: 17.976px;
-line-height: 22px;
-
-color: #666666;
-
-`
+const TopPage = styled.div `
+  
+  display:flex;
+  justify-content: space-between;
+  
+  a{
+  
+  width: 148px;
+  height: 29px;
+  left: 17px;
+  top: 98px;
+  font-family: 'Lexend Deca';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22.976px;
+  line-height: 29px;
+  color: #126BA5;
+  margin-left: 18px;
+  }
+  
+  `
