@@ -11,18 +11,19 @@ const {habitName, setHabitName} = useContext(Context);
 const days = ["D.0", "S.1", "T.2", "Q.3", "Q.4", "S.5", "S.6"];
 const [daysSelected, setDaysSelected] = useState([]);
 const numberDay = daysSelected.map((day) => parseInt(day.split(".")[1]));
+const token = localStorage.getItem('token');
+const {userData, setUserData} = useContext(Context);
 
 
-const token = localStorage.getItem(`teste`);
+ console.log(token)
 
-
-function sendNewTask (){
+function sendNewTask (event){
     
-
+event.preventDefault();
 const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
 const config = {
     headers: {
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${userData.token}`
     }}
 
 const body = {
@@ -34,12 +35,11 @@ const promise = axios.post(url, body, config)
 promise.then(res => 
     
  {console.log("sucesso");
- cancel();}
+ cancel(); props.setRender(...props.render, 1);
+}
     
     )
-    promise.catch(err => console.log(err.response))
-
-
+    promise.catch(err => console.log(err.response.data.message))
 
 console.log("chegou")
 

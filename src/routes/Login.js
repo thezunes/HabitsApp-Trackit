@@ -16,11 +16,14 @@ export default function Cadastro() {
   const [disabledButtom, setDisabledButtom] = useState(true)
   const [loading, setLoading] = useState(false)
   const [disabledInput, setDisabledInput] = useState(false)
+  localStorage.removeItem(`token`);
+  localStorage.removeItem(`image`);
 
- 
 
   useEffect(() => {if(password !== "" && email !== "") {setDisabledButtom(false)} else {setDisabledButtom(true)} }, [password,email])
 
+
+   
 
   function login(e){
 
@@ -30,11 +33,13 @@ export default function Cadastro() {
     setLoading(true)
     setDisabledInput(true)
     setDisabledButtom(true)
+    
+   
 
     const promise = axios.post(url, data)
 
     promise.then((res) => {
-      
+       
       const newUserData={
         image:res.data.image,
         token:res.data.token
@@ -42,8 +47,9 @@ export default function Cadastro() {
       setUserData(newUserData);
       navigate("/habitos"); 
       setLoading(false);
-      localStorage.setItem(`token`,`${userData.token}`);
-      localStorage.setItem(`image`,`${userData.image}`);
+      localStorage.setItem(`token`,JSON.stringify(userData.token));
+      localStorage.setItem(`image`,JSON.stringify(userData.image));
+      
     })
 
       promise.catch((err) => {

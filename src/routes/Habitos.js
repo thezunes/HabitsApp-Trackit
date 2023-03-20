@@ -8,26 +8,25 @@ import axios from 'axios';
 import PlusTask from '../components/PlusTask'
 import AddTask from '../components/AddTask'
 
+
 export default function Habitos() {
 
   const {userData, setUserData} = useContext(Context);
   const {habits, setHabits} = useContext(Context);
   const {newHabit, setNewHabit} = useState([]);
   const [addTaskContainer, setAddTaskContainer] = useState(false);
-  const daysWeek = ["D", "S","T", "Q", "Q", "S", "S"]
+  const daysWeek = ["D", "S","T","Q", "Q", "S", "S"]
   const [dayHabit, setDayHabit] = useState();
-  
+  const token = localStorage.getItem(`token`);
+  const {render, setRender} = useState();
 
-  
-
-  
+ 
   useEffect(() =>{
 
-    const token = localStorage.getItem(`teste`);
     const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${userData.token}`
       }
     }
   
@@ -39,7 +38,7 @@ export default function Habitos() {
     console.log(dayHabit)})
     promise.catch(err => console.log(err.response))
 
-  } ,[])
+  } ,[render])
 
    return (
     
@@ -52,7 +51,7 @@ export default function Habitos() {
         <PlusTask addTaskContainer={addTaskContainer} setAddTaskContainer={setAddTaskContainer}/>
       </TopPage>
 
-      {addTaskContainer ? <AddTask setAddTaskContainer={setAddTaskContainer}/> : null}
+      {addTaskContainer ? <AddTask render={render} setRender={setRender} setAddTaskContainer={setAddTaskContainer}/> : null}
 
       {habits.length === 0 ? 
   <NoTask addTaskContainer={addTaskContainer}> Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</NoTask> :
@@ -91,7 +90,7 @@ export default function Habitos() {
     max-width: 375px;
     height: 632px;
     display: flex;
-    padding-top: 110px;
+    padding-top: 80px;
     flex-direction: column;
     align-items: center;
      
