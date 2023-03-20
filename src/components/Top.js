@@ -15,7 +15,7 @@ export default function Top() {
     <>
         <TopPage>
           <a>TrackIt</a>
-          <img src={image} alt="logoprofile"/>
+          <img src={userData.image} alt="logoprofile"/>
         </TopPage>
 
     </>
