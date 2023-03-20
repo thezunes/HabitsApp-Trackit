@@ -69,7 +69,7 @@ export default function Habitos() {
     <Container>
       <TopPage>
         <a> Meus hábitos </a>
-        <PlusTask addTaskContainer={addTaskContainer} setAddTaskContainer={setAddTaskContainer}/>
+        <PlusTask  addTaskContainer={addTaskContainer} setAddTaskContainer={setAddTaskContainer}/>
       </TopPage>
 
       {addTaskContainer ? <AddTask render={render} setRender={setRender} setAddTaskContainer={setAddTaskContainer}/> : null}
@@ -79,14 +79,14 @@ export default function Habitos() {
   (
     <>
     {habits.map((h) => (
-      <Tasks data-test="habit-container" key={h.id}>
+      <Tasks render={render}  data-test="habit-container" key={h.id}>
         <Task>
           <a>{h.name}</a>
-          <Icon onClick={() => deleteHabit(h.id)}><ion-icon name="trash-outline"></ion-icon></Icon>
+          <Icon data-teste="habit-delete-btn" onClick={() => deleteHabit(h.id)}><ion-icon name="trash-outline"></ion-icon></Icon>
 
         </Task>
         <Week data-test="habit-day">
-          {daysWeek.map((d) => <Days key={d}>{d}</Days>
+          {daysWeek.map((d) => <Days  key={d}>{d}</Days>
           )}
         </Week>
       </Tasks>
